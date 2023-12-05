@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BrandController!{% endblock %}
+
+{% block body %}
+<style>     
+.example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }     
+.example-wrapper code { background: #F5F5F5; padding: 2px 6px; } 
+</style>
+<h1 style="margin-top:30px;">Liste des Marques</h1>
+{% if brands is not empty %}
+<div class="container p-5 m-5">
+    <table class="table table p-5 m-5">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Date de création</th>
+                <th>Logo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in brands %}
+                <tr>
+                    <td>{{ b.name }}</td>
+                    <td>{{ b.creationDate|date('d-m-y') }}</td>
+                    <td>
+                        {% if b.logo is not null %}
+                            <img src="{{ asset('uploads/' ~ b.logo) }}" style="width: 50px;">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{path('brand', {'id': b.id})}}" class="btn btn-primary">
+                            Afficher
+                        </a>
+                        <a href="{{path('delete_brand', {'id':b.id})}}" class="btn btn-danger">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+{% else %}
+    <p>Aucune Marque</p>
+{% endif %}
+<h1>Créer Marque</h1>
+<div class="p-5 m-5">
+    {{ form(ajout) }}
+</div>
+
+{% endblock %}
